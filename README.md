@@ -17,10 +17,7 @@ To load all images (will load into a separate folder for each set):
 node index.js
 ```
 
-To load only one set:
-```
-node index.js setname
-```
+You can stop and start this program, and it should pick up where it left off.
 
 (see https://scryfall.com/sets and note the grey text; that is the setname)
 
