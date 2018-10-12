@@ -25,36 +25,39 @@ async function downloadImages() {
 function mockDownload(card) {
   return new Promise((resolve, reject) => {
 
+    if (!card.image_uris || !card.image_uris.small) {
+      return resolve();
+    }
+
     const card_name = `${card.set}_${card.collector_number}_${card.name}.jpg`;
     const exists = fs.existsSync(`./cards/${card.set}/${card_name}`);
+
     if (exists) {
-      resolve();
+      return resolve();
     }
     else {
       setTimeout(function() {
         const options = {
           uri: card.image_uris.small,
           method: "GET",
-          encoding: null,
-          headers: {
-            "Content-type": "applcation/jpeg"
-          }
+          encoding: null
         };
         rp(options)
           .then((response) => {
             fs.writeFile(`./cards/${card.set}/${card_name}`, response, 'binary', (err) => {
               if (err) {
-                // console.log(err);
-                resolve();
+                console.log(`A. error saving ${card_name}`);
+                return resolve();
               }
 
               console.log(`saved ${card_name}`);
-              resolve();
+              return resolve();
             });
 
           })
           .catch((e) => {
-            resolve();
+            console.log(`B. error fetching ${card_name}`);
+            return resolve();
           });
       }, 700);
     }
