@@ -14,9 +14,7 @@ class SpeckleImage(Operation):
     def perform_operation(self, images):
         arr = []
         for item in images:
-            data = np.array(item).astype('uint8')
-            data = PIL.Image.fromarray(data)
-            im = data.convert('RGBA')
+            im = item.convert('RGBA')
             data = np.array(im)
             red, green, blue, a = data.T
             black_areas = (red < 100) & (blue < 100) & (green < 100)
@@ -27,7 +25,8 @@ class SpeckleImage(Operation):
 #                     black_areas = (red < 1) & (blue < 1) & (green < 1)
 #                     cell = (0, 0, 0, 255)
             i = PIL.Image.fromarray(data)
-            arr.append(i)
+            rgb_im = i.convert('RGB')
+            arr.append(rgb_im)
         return arr
 
 speckle = SpeckleImage(probability = 1, threshold=5, corners_only=True)
@@ -37,7 +36,7 @@ speckle = SpeckleImage(probability = 1, threshold=5, corners_only=True)
 #p = Augmentor.Pipeline(source_directory="../medium_cards/2ed", output_directory="../../data/validation/2ed")
 p = Augmentor.Pipeline(source_directory="../aug_cards")
 p.add_operation(speckle)
-p.greyscale(probability=1)
+# p.greyscale(probability=1)
 # p.resize(probability=1, width=610, height=800, resample_filter=u'BICUBIC')
 # p.zoom(probability=1, min_factor=0.55, max_factor=0.55)
 # p.rotate_without_crop(probability=1, max_left_rotation=90, max_right_rotation=90)
