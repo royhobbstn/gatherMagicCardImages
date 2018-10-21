@@ -1,0 +1,5 @@
+Augmentor==0.2.3
+Keras==2.2.4
+Numpy==1.15.2
+tensorflow==1.11.0
+matplotlib==3.0.0

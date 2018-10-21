@@ -1,12 +1,12 @@
 const fs = require('fs');
 const rp = require('request-promise');
 
-const card_data = JSON.parse(fs.readFileSync('./data/scryfall-default-cards.json'));
+const card_data = JSON.parse(fs.readFileSync('./card_data/scryfall-default-cards.json'));
 
 const sets = new Set(card_data.map(d => d.set));
 sets.forEach(set => {
   try {
-    fs.mkdirSync(`./cards/${set}`);
+    fs.mkdirSync(`./medium_cards/${set}`);
   }
   catch (e) {
     // exists
@@ -30,7 +30,7 @@ function mockDownload(card) {
     }
 
     const card_name = `${card.set}_${card.collector_number}_${card.name}.jpg`;
-    const exists = fs.existsSync(`./cards/${card.set}/${card_name}`);
+    const exists = fs.existsSync(`./medium_cards/${card.set}/${card_name}`);
 
     if (exists) {
       return resolve();
@@ -38,13 +38,13 @@ function mockDownload(card) {
     else {
       setTimeout(function() {
         const options = {
-          uri: card.image_uris.small,
+          uri: card.image_uris.normal,
           method: "GET",
           encoding: null
         };
         rp(options)
           .then((response) => {
-            fs.writeFile(`./cards/${card.set}/${card_name}`, response, 'binary', (err) => {
+            fs.writeFile(`./medium_cards/${card.set}/${card_name}`, response, 'binary', (err) => {
               if (err) {
                 console.log(`A. error saving ${card_name}`);
                 return resolve();
