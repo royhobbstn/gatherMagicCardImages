@@ -16,14 +16,15 @@ class SpeckleImage(Operation):
         for item in images:
             im = item.convert('RGBA')
             data = np.array(im)
-            red, green, blue, a = data.T
-            black_areas = (red < 100) & (blue < 100) & (green < 100)
-            data[..., :-1][black_areas.T] = (255, 0, 0)
-#             for row in data:
-#                 for cell in row:
-#                     red, green, blue, a = cell
-#                     black_areas = (red < 1) & (blue < 1) & (green < 1)
-#                     cell = (0, 0, 0, 255)
+#             red, green, blue, a = data.T
+#             black_areas = (red < 100) & (blue < 100) & (green < 100)
+#             data[..., :-1][black_areas.T] = (255, 0, 0)
+            for row_idx, row in enumerate(data):
+                for cell_idx, cell in enumerate(row):
+                    red, green, blue, a = cell
+                    black_areas = (red < 100) & (blue < 100) & (green < 100)
+                    if black_areas:
+                        data[row_idx, cell_idx] = (0, 255, 255, 255)
             i = PIL.Image.fromarray(data)
             rgb_im = i.convert('RGB')
             arr.append(rgb_im)
