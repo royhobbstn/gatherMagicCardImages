@@ -65,3 +65,6 @@ scryfall-default-cards.json
 .idea/
 data/
 *.h5
+
+__pycache__
+*.csv
