@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/royhobbstn/gatherMagicCardImages#readme",
   "dependencies": {
+    "aws-sdk": "^2.348.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "rimraf": "^2.6.2"
